@@ -1,0 +1,4 @@
+# ignorar objetos e executáveis
+*.o
+*.hi
+*.exe
