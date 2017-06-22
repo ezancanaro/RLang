@@ -150,7 +150,7 @@ rMatchVal sig (DupEq l) = let v' = debug("rMatchVal DupEq:: sig:" ++ show sig ++
                               "equalize" -> debug ("rMatchVal DupEq equalize" ++ show v') 
                                               ConsVal "binaryTuple" [v',v']
 
-eraseTupleCons :: Value -> Value -- Erasing the tuple construct.
+eraseTupleCons :: Value -> Value -- Erasing the tuple construct. Used because of duplicating construct in DupEq rMatchVal rule.
 eraseTupleCons (ConsVal "unaryTuple" vlist) = head vlist
 eraseTupleCons v = v 
 
@@ -253,7 +253,6 @@ reverseOpSemantics sigL q (CaseExp l listLE) v = let listE = getListE listLE in
                                                                       error ("Symmetric first-match policy violated!")
 
                                                                   
-
 getEJ :: [(L,E)] -> Int -> E -- Extracts the expression from a (L,E) pair stored in a Case expression.
 getEJ [] i = error "No expressions in list (CaseExp)"
 getEJ listLE i = snd (listLE !! i)
