@@ -17,7 +17,7 @@ fibAndPlus =    let x = (Var 'x')
                     su = (Con "S" [u])
                     su' = (Con "S" [u'])
                     pairXY = (Con "binaryTuple" [x,y])
-                    zVal = ConsVal "Z" []
+                    zVal = (ConsVal "Z" [])
                     szVal = (ConsVal "S" [zVal])
                     sszVal = (ConsVal "S" [szVal])
                     ssszVal = (ConsVal "S" [sszVal])
@@ -56,10 +56,10 @@ fibAndPlus =    let x = (Var 'x')
                     w = (Var 'w')
                     c = (Var 'c')
                     pairWQ = (Con "binaryTuple" [w,c])
-                    eRP = (RLet pairKJ "plus" pairWQ (LeftExp pairWQ))            
+                    eRP = (RLet pairKJ "plus" pairWQ (LeftExp pairWQ))
                     rplus =(FunExp "rplus" pairKJ)
                     defRPlus = (Def "rplus" pairKJ eRP)
-                    
+
                     ---------------------- fib-1
                     p = (Var 'p')
                     o = (Var 'o')
@@ -71,7 +71,7 @@ fibAndPlus =    let x = (Var 'x')
                     pVal = sszVal
                     oVal = ssszVal
                      ---Sigmas e Q
-                    
+
                     sig = [('x',szVal),('y',zVal)]
                     sig2 = [('x',szVal),('y',szVal)]
                     sig3 = [('k',szVal),('j',szVal)]
@@ -82,18 +82,18 @@ fibAndPlus =    let x = (Var 'x')
                     sigRFib = [('p',pVal),('o',oVal)]
                     q = [(defPlus,"plus"),(defRPlus,"rplus"),(defFib,"fib"),(defRFib,"rfib")]
 
-                in ("plus s[Z],Z by function " ++ show defPlus ++ " \n") 
-                        -- ++ ("Evaluates to: " ++ show (opSemantics sig sig' q plus)) ++ "\n\n\n" 
-                        --   ++ ("plus s[Z],S[Z] by function " ++ show defPlus ++ " \n") 
-                        --        ++ ("Evaluates to: " ++ show (opSemantics sig2 sig' q plus)) ++ "\n\n"
+                in ("plus s[Z],Z by function " ++ show defPlus ++ " \n")
+                         ++ ("Evaluates to: " ++ show (opSemantics sig sig' q plus)) ++ "\n\n\n"
+                          ++ ("plus s[Z],S[Z] by function " ++ show defPlus ++ " \n")
+                                ++ ("Evaluates to: " ++ show (opSemantics sig2 sig' q plus)) ++ "\n\n"
                                    ++ ("rPlus " ++ show (snd (sig3!!0)) ++ "," ++ show (snd (sig3!!1)) ++ " by function " ++ show defRPlus ++ " \n")
                                         ++("Evaluates to: " ++ show (opSemantics sig3 sig' q rplus)) ++ "\n\n\n"
-                                            ++ ("rPlus " ++ show (snd (sig4!!0)) ++ "," ++ show (snd (sig4!!1)) ++ " by function " ++ show defRPlus ++ " \n") 
+                                            ++ ("rPlus " ++ show (snd (sig4!!0)) ++ "," ++ show (snd (sig4!!1)) ++ " by function " ++ show defRPlus ++ " \n")
                                                 ++ ("Evaluates to: " ++ show (opSemantics sig4 sig' q rplus)) ++ "\n\n\n"
-                        --                            ++ ( "fib Z by function " ++ show defFib) ++ "\n"
-                        --                               ++ ("Evaluates to: " ++ show (opSemantics sigFib sig' q fib)) ++ "\n\n"
-                        --                                   ++ ( "fib S[S[Z]] by function " ++ show defFib) ++ "\n"
-                        --                                        ++ ("Evaluates to: " ++ show (opSemantics sigFib2 sig' q fib)) ++ "\n\n"
+                                                    ++ ( "fib Z by function " ++ show defFib) ++ "\n"
+                                                       ++ ("Evaluates to: " ++ show (opSemantics sigFib sig' q fib)) ++ "\n\n"
+                                                           ++ ( "fib S[S[Z]] by function " ++ show defFib) ++ "\n"
+                                                                ++ ("Evaluates to: " ++ show (opSemantics sigFib2 sig' q fib)) ++ "\n\n"
                                                                     ++ ( "rfib "++ show pVal ++","++ show oVal ++" by function " ++ show defRFib) ++ "\n"
                                                                          ++ ("Evaluates to: " ++ show (opSemantics sigRFib sig' q rFib))
 
@@ -109,7 +109,7 @@ incRinc =           let x = (Var 'x') -- RInc x
                         yVal = (ConsVal "S" [(ConsVal "Z" [])])
                         sssz = (ConsVal "S" [(ConsVal "S" [yVal])])
                         xVal = sssz -- (ConsVal "S" [yVal])
-                        
+
                         e1 = (LeftExp sz)
                         e2 = (LetExp m "inc" n (LeftExp sm)) -- Temp
                         eF = (CaseExp y [(z,e1),(sn,e2)])
@@ -121,11 +121,11 @@ incRinc =           let x = (Var 'x') -- RInc x
                         rIncF = (FunExp "rinc" x)
                         defRInc = (Def "rinc" x eRF)
                         q = [(defInc,"inc"),(defRInc,"rinc")]
-                    in  
+                    in
                         ("Inc " ++ show yVal ++ " by function " ++ show defInc ++ " \n") ++
                             ("Evaluates to: " ++ show (opSemantics sig sig' q incF)) ++ "\n\n\n" ++
                                 ("rInc " ++ show xVal ++ " by reverse function " ++ show defRInc)  ++ "\n" ++
-                                    ("Evaluates to: " ++ show (opSemantics sig sig' q rIncF)) ++ "\n" 
+                                    ("Evaluates to: " ++ show (opSemantics sig sig' q rIncF)) ++ "\n"
                         {-print ("Inc S(Z) by function " ++ show defInc)
                         print ("Evaluates to: " ++ show (opSemantics sig sig' q incF))
                         print ("rInc S[Z] by reverse function " ++ show defRInc)
@@ -133,6 +133,6 @@ incRinc =           let x = (Var 'x') -- RInc x
 -}
 
 main =  do
-        --    putStr incRinc
+            putStr incRinc
             putStrLn ("---.---.---.---.---.---.---.---.---.---")
             putStrLn fibAndPlus
